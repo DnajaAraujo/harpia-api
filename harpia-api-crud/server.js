@@ -55,30 +55,20 @@ router.post('/postagens/criar', async(req, res) => {
     postagem.descricao = req.body.descricao
     postagem.categoria = req.body.categoria
     postagem.idLivro = req.body.idLivro
-
-    if (req.body.imagem != '') {
-        const imagem = req.body.imagem
-        const fs = require('fs')
-        const nomeArquivo = Math.random().toString() + '.jpg'
-
-        postagem.imagem = 'public/upload/' + nomeArquivo
-        fs.writeFile('public/upload/' + nomeArquivo, imagem, 'base64', () => {
-            postagem.save((error) => {
-                if (error) {
-                    res.status(400).json({ mensagem: 'Erro ao tentar salvar a postagem' })
-                }
-                res.status(200).json({ mensagem: 'Postagem cadastrada com sucesso!' })
-            })
-        })
-    }
   
+    postagem.save((error) => {
+        if (error) {
+            res.status(400).json({ mensagem: 'Erro ao tentar salvar a postagem' })
+        }
+        res.status(200).json({ mensagem: 'Postagem cadastrada com sucesso!' })
+    })
 })
 
 
 // Alterar postagem
 router.put('/postagens/alterar/:id', async(req, res) => {
     const { id } = req.params
-    const { titulo, descricao, categoria, imagem, idLivro } = req.body
+    const { titulo, descricao, categoria, idLivro } = req.body
 
     Postagem.findById(id, (error, postagem) => {
         if (error) {
@@ -87,7 +77,6 @@ router.put('/postagens/alterar/:id', async(req, res) => {
         if (titulo) postagem.titulo = titulo
         if (descricao) postagem.descricao = descricao
         if (categoria) postagem.categoria = categoria
-        if (imagem) postagem.imagem = imagem
         if (idLivro) postagem.idLivro = idLivro
         
         postagem.save((error) => {

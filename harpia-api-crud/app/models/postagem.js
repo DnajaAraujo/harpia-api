@@ -5,7 +5,7 @@ const PostagemSchema = new Schema({
     titulo: String,
     descricao: String,
     categoria: String,
-    imagem: String,
+    //imagem: String,
     idLivro: String
 })
 
