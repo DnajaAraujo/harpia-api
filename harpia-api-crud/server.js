@@ -70,7 +70,7 @@ router.post('/postagens/criar', async(req, res) => {
 // Alterar postagem
 router.put('/postagens/alterar/:id', async(req, res) => {
     const { id } = req.params
-    const { titulo, descricao, categoria, idLivro } = req.body
+    const { titulo, descricao, categoria, localizacao, idUsuario } = req.body
 
     Postagem.findById(id, (error, postagem) => {
         if (error) {
@@ -79,7 +79,8 @@ router.put('/postagens/alterar/:id', async(req, res) => {
         if (titulo) postagem.titulo = titulo
         if (descricao) postagem.descricao = descricao
         if (categoria) postagem.categoria = categoria
-        if (idLivro) postagem.idLivro = idLivro
+        if (localizacao) postagem.localizacao = localizacao
+        if (idUsuario) postagem.idUsuario = idUsuario
         
         postagem.save((error) => {
             if (error) {
