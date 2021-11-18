@@ -6,7 +6,9 @@ const PostagemSchema = new Schema({
     descricao: String,
     categoria: String,
     //imagem: String,
-    idLivro: String
+    localizacao: String,
+    idUsuario: String
+
 })
 
 module.exports = mongoose.model('Postagem', PostagemSchema)

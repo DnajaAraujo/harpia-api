@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
 const Postagem = require('./app/models/postagem')
-const Livro = require('./app/models/livro')
+const Usuario = require('./app/models/usuario')
 const configuracao = require('./config')
 
 mongoose.connect(configuracao.db)
@@ -28,7 +28,7 @@ router.use((req, res, next) => {
 router.get('/postagens', async(req, res) => {
     Postagem.find((error, postagens) => {
         if (error) {
-            res.status(400).json({ mensagem: 'Erro ao tentar obter todos as postagens' })
+            res.status(400).json({ mensagem: 'Erro ao tentar obter todos as postagens!' })
         }
         res.status(200).json(postagens)
     })
@@ -40,7 +40,7 @@ router.get('/postagens/:id', async(req, res) => {
     const { id } = req.params
     Postagem.findById(id, (error, postagem) => {
         if (error) {
-            res.status(400).json({ mensagem: 'Id da postagem não encontrado' })
+            res.status(400).json({ mensagem: 'Id da postagem não encontrado!' })
         }
         res.status(200).json(postagem)
     })
@@ -49,16 +49,18 @@ router.get('/postagens/:id', async(req, res) => {
 
 // Criar postagem
 router.post('/postagens/criar', async(req, res) => {
+    const { titulo, descricao, categoria, localizacao, idUsuario } = req.body
     const postagem = new Postagem()
 
-    postagem.titulo = req.body.titulo
-    postagem.descricao = req.body.descricao
-    postagem.categoria = req.body.categoria
-    postagem.idLivro = req.body.idLivro
+    postagem.titulo = titulo
+    postagem.descricao = descricao
+    postagem.categoria = categoria
+    postagem.localizacao = localizacao
+    postagem.idUsuario = idUsuario
   
     postagem.save((error) => {
         if (error) {
-            res.status(400).json({ mensagem: 'Erro ao tentar salvar a postagem' })
+            res.status(400).json({ mensagem: 'Erro ao tentar salvar a postagem!' })
         }
         res.status(200).json({ mensagem: 'Postagem cadastrada com sucesso!' })
     })
@@ -72,7 +74,7 @@ router.put('/postagens/alterar/:id', async(req, res) => {
 
     Postagem.findById(id, (error, postagem) => {
         if (error) {
-            res.status(400).json({ mensagem: 'Id da postagem não encontrado' })
+            res.status(400).json({ mensagem: 'Id da postagem não encontrado!' })
         }
         if (titulo) postagem.titulo = titulo
         if (descricao) postagem.descricao = descricao
@@ -81,7 +83,7 @@ router.put('/postagens/alterar/:id', async(req, res) => {
         
         postagem.save((error) => {
             if (error) {
-                res.status(400).json({ mensagem: 'Erro ao alterar a postagem' })
+                res.status(400).json({ mensagem: 'Erro ao alterar a postagem!' })
             }
             res.status(200).json({ mensagem: 'Postagem atualizada com sucesso!' })
         })
@@ -96,7 +98,7 @@ router.delete('/postagens/deletar/:id', async(req, res) => {
 
     Postagem.deleteOne({_id: id}, (error) => {
         if (error) {
-            res.status(400).json({ mensagem: 'Id da postagem não foi encontrado' })
+            res.status(400).json({ mensagem: 'Id da postagem não foi encontrado!' })
         }
         res.status(200).json({ mensagem: 'Postagem excluida com sucesso!' })
     })
@@ -104,84 +106,85 @@ router.delete('/postagens/deletar/:id', async(req, res) => {
 
 
 // --------------------------------------------------------------------------------------
-// Rotas dos livros
-// Obter todas os livros
-router.get('/livros', async(req, res) => {
-    Livro.find((error, livros) => {
+// Rotas dos usuarios
+// Obter todos os usuarios
+router.get('/usuarios', async(req, res) => {
+    Usuario.find((error, usuarios) => {
         if (error) {
-            res.status(400).json({ mensagem: 'Erro ao tentar obter todos os livros' })
+            res.status(400).json({ mensagem: 'Erro ao tentar obter todos os usuários!' })
         }
-        res.status(200).json(livros)
+        res.status(200).json(usuarios)
     })
 })
 
 
-// Obter um livro
-router.get('/livros/:id', async(req, res) => {
+// Obter um usuario
+router.get('/usuarios/:id', async(req, res) => {
     const { id } = req.params
-    Livro.findById(id, (error, livro) => {
+    Usuario.findById(id, (error, usuario) => {
         if (error) {
-            res.status(400).json({ mensagem: 'Id do livro não encontrado' })
+            res.status(400).json({ mensagem: 'Id do usuário não encontrado!' })
         }
-        res.status(200).json(livro)
+        res.status(200).json(usuario)
     })
 })
 
 
-// Criar livro
-router.post('/livros/criar', async(req, res) => {
-    const livro = new Livro()
+// Criar usuario
+router.post('/usuarios/criar', async(req, res) => {
+    const { nome, dataNascimento, endereco, telefone, email } = req.body
+    const usuario = new Usuario()
 
-    livro.titulo = req.body.titulo
-    livro.sinopse = req.body.sinopse
-    livro.autor = req.body.autor
-    livro.idade = req.body.idade
-    livro.qualidade = req.body.qualidade
+    usuario.nome = nome
+    usuario.dataNascimento = dataNascimento
+    usuario.endereco = endereco
+    usuario.telefone = telefone
+    usuario.email = email
 
-    livro.save((error) => {
+    usuario.save((error) => {
         if (error) {
-            res.status(400).json({ mensagem: 'Erro ao tentar salvar o livro' })
+            res.status(400).json({ mensagem: 'Erro ao tentar salvar o usuário!' })
         }
-        res.status(200).json({ mensagem: 'Livro cadastrado com sucesso!' })
+        res.status(200).json({ mensagem: 'Usuário cadastrado com sucesso!' })
     })
 })
 
 
-// Alterar livro
-router.put('/livros/alterar/:id', async(req, res) => {
+// Alterar usuario
+router.put('/usuarios/alterar/:id', async(req, res) => {
     const { id } = req.params
-    const { titulo, sinopse, autor, idade, qualidade } = req.body
+    const { nome, dataNascimento, endereco, telefone, email } = req.body
 
-    Livro.findById(id, (error, livro) => {
+    Usuario.findById(id, (error, usuario) => {
         if (error) {
-            res.status(400).json({ mensagem: 'Id do livro não encontrado' })
+            res.status(400).json({ mensagem: 'Id do usuário não encontrado!' })
         }
-        if (titulo) livro.titulo = titulo
-        if (sinopse) livro.sinopse = sinopse
-        if (autor) livro.autor = autor
-        if (idade) livro.idade = idade
-        if (qualidade) livro.qualidade = qualidade
+        if (nome) usuario.nome = nome
+        if (dataNascimento) usuario.dataNascimento = dataNascimento
+        if (endereco) usuario.endereco = endereco
+        if (telefone) usuario.telefone = telefone
+        if (email) usuario.email = email
         
-        livro.save((error) => {
+        usuario.save((error) => {
             if (error) {
-                res.status(400).json({ mensagem: 'Erro ao alterar o livro' })
+                res.status(400).json({ mensagem: 'Erro ao alterar o usuário!' })
             }
-            res.status(200).json({ mensagem: 'Livro atualizado com sucesso!' })
+            res.status(200).json({ mensagem: 'Usuário atualizado com sucesso!' })
         })
     })
 
 })
 
 
-// Deletar livro
-router.delete('/livros/deletar/:id', async(req, res) => {
+// Deletar usuario
+router.delete('/usuarios/deletar/:id', async(req, res) => {
     const { id } = req.params
 
-    Livro.deleteOne({_id: id}, (error) => {
+    Usuario.deleteOne({_id: id}, (error) => {
         if (error) {
-            res.status(400).json({ mensagem: 'Id do livro não foi encontrado' })
+            res.status(400).json({ mensagem: 'Id do usuário não foi encontrado!' })
         }
-        res.status(200).json({ mensagem: 'Livro excluido com sucesso!' })
+        res.status(200).json({ mensagem: 'Usuário excluido com sucesso!' })
     })
 })
 
