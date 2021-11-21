@@ -49,7 +49,14 @@ router.get('/postagens/:id', async(req, res) => {
 
 // Criar postagem
 router.post('/postagens/criar', async(req, res) => {
-    const { titulo, descricao, categoria, localizacao, idUsuario } = req.body
+    const { 
+        titulo, 
+        descricao, 
+        categoria, 
+        localizacao, 
+        idUsuario 
+    } = req.body
+    
     const postagem = new Postagem()
 
     postagem.titulo = titulo
@@ -70,7 +77,13 @@ router.post('/postagens/criar', async(req, res) => {
 // Alterar postagem
 router.put('/postagens/alterar/:id', async(req, res) => {
     const { id } = req.params
-    const { titulo, descricao, categoria, localizacao, idUsuario } = req.body
+    const { 
+        titulo, 
+        descricao, 
+        categoria, 
+        localizacao, 
+        idUsuario 
+    } = req.body
 
     Postagem.findById(id, (error, postagem) => {
         if (error) {
@@ -133,14 +146,27 @@ router.get('/usuarios/:id', async(req, res) => {
 
 // Criar usuario
 router.post('/usuarios/criar', async(req, res) => {
-    const { nome, dataNascimento, endereco, telefone, email } = req.body
+    const { 
+        nome, 
+        dataNascimento,  
+        telefone, 
+        email, 
+        senha,
+        bairro,
+        cidade,
+        estado 
+    } = req.body
+
     const usuario = new Usuario()
 
     usuario.nome = nome
     usuario.dataNascimento = dataNascimento
-    usuario.endereco = endereco
     usuario.telefone = telefone
     usuario.email = email
+    usuario.senha = senha
+    usuario.bairro = bairro
+    usuario.cidade = cidade
+    usuario.estado = estado
 
     usuario.save((error) => {
         if (error) {
@@ -154,7 +180,16 @@ router.post('/usuarios/criar', async(req, res) => {
 // Alterar usuario
 router.put('/usuarios/alterar/:id', async(req, res) => {
     const { id } = req.params
-    const { nome, dataNascimento, endereco, telefone, email } = req.body
+    const { 
+        nome, 
+        dataNascimento, 
+        telefone, 
+        email, 
+        senha,
+        bairro,
+        cidade,
+        estado 
+    } = req.body
 
     Usuario.findById(id, (error, usuario) => {
         if (error) {
@@ -162,9 +197,12 @@ router.put('/usuarios/alterar/:id', async(req, res) => {
         }
         if (nome) usuario.nome = nome
         if (dataNascimento) usuario.dataNascimento = dataNascimento
-        if (endereco) usuario.endereco = endereco
         if (telefone) usuario.telefone = telefone
         if (email) usuario.email = email
+        if (senha) usuario.senha = senha
+        if (bairro) usuario.bairro = bairro
+        if (cidade) usuario.cidade = cidade
+        if (estado) usuario.estado = estado
         
         usuario.save((error) => {
             if (error) {
