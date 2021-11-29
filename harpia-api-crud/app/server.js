@@ -1,17 +1,25 @@
-const express = require('express')
-const app = express()
-const mongoose = require('mongoose')
-const Postagem = require('./app/models/postagem')
-const Livro = require('./app/models/livro')
-const configuracao = require('./config')
+require("dotenv").config();
 
+import {routerPost} from './routes/postRoute';
+import express from 'express';
+import mongoose from 'mongoose';
+import cors from 'cors';
+import path from 'path';
+
+const app = express();
+
+const configuracao = require('../config')
 mongoose.connect(configuracao.db)
 
+
+app.use(cors())
 app.use(express.json({ limit: '50mb'}))
-app.use(express.urlencoded({ extended: true, limit: '50mb' }))
+app.use(express.urlencoded({ extended: true }))
+//app.use(express.urlencoded({ extended: true, limit: '50mb' }))
 
 // Salva imagem no diretório local
-app.use(configuracao.path, express.static(__dirname + '/public/upload'))
+//app.use(configuracao.path, express.static(__dirname + '../public/upload'))
+app.use(configuracao.path, express.static(path.resolve(__dirname,'..','public','upload')))
 
 const router = express.Router()
 
@@ -21,6 +29,9 @@ router.use((req, res, next) => {
     next()
 })
 
+
+
+/*
 
 // ----------------------------------------------------------------------------------------
 // Rotas das postagens
@@ -101,97 +112,14 @@ router.delete('/postagens/deletar/:id', async(req, res) => {
         res.status(200).json({ mensagem: 'Postagem excluida com sucesso!' })
     })
 })
-
-
-// --------------------------------------------------------------------------------------
-// Rotas dos livros
-// Obter todas os livros
-router.get('/livros', async(req, res) => {
-    Livro.find((error, livros) => {
-        if (error) {
-            res.status(400).json({ mensagem: 'Erro ao tentar obter todos os livros' })
-        }
-        res.status(200).json(livros)
-    })
-})
-
-
-// Obter um livro
-router.get('/livros/:id', async(req, res) => {
-    const { id } = req.params
-    Livro.findById(id, (error, livro) => {
-        if (error) {
-            res.status(400).json({ mensagem: 'Id do livro não encontrado' })
-        }
-        res.status(200).json(livro)
-    })
-})
-
-
-// Criar livro
-router.post('/livros/criar', async(req, res) => {
-    const livro = new Livro()
-
-    livro.titulo = req.body.titulo
-    livro.sinopse = req.body.sinopse
-    livro.autor = req.body.autor
-    livro.idade = req.body.idade
-    livro.qualidade = req.body.qualidade
-
-    livro.save((error) => {
-        if (error) {
-            res.status(400).json({ mensagem: 'Erro ao tentar salvar o livro' })
-        }
-        res.status(200).json({ mensagem: 'Livro cadastrado com sucesso!' })
-    })
-})
-
-
-// Alterar livro
-router.put('/livros/alterar/:id', async(req, res) => {
-    const { id } = req.params
-    const { titulo, sinopse, autor, idade, qualidade } = req.body
-
-    Livro.findById(id, (error, livro) => {
-        if (error) {
-            res.status(400).json({ mensagem: 'Id do livro não encontrado' })
-        }
-        if (titulo) livro.titulo = titulo
-        if (sinopse) livro.sinopse = sinopse
-        if (autor) livro.autor = autor
-        if (idade) livro.idade = idade
-        if (qualidade) livro.qualidade = qualidade
-        
-        livro.save((error) => {
-            if (error) {
-                res.status(400).json({ mensagem: 'Erro ao alterar o livro' })
-            }
-            res.status(200).json({ mensagem: 'Livro atualizado com sucesso!' })
-        })
-    })
-
-})
-
-
-// Deletar livro
-router.delete('/livros/deletar/:id', async(req, res) => {
-    const { id } = req.params
-
-    Livro.deleteOne({_id: id}, (error) => {
-        if (error) {
-            res.status(400).json({ mensagem: 'Id do livro não foi encontrado' })
-        }
-        res.status(200).json({ mensagem: 'Livro excluido com sucesso!' })
-    })
-})
-
-
-
+*/
 
 
 
 // Padronizando rotas (ex.: .../api/postagens)
-app.use('/api', router)
+//app.use('/api', router)
+
+app.use('/postagem',routerPost);
 
 // Inicializando servidor
 app.listen(configuracao.porta, () => {
