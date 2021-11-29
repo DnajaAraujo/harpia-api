@@ -1,6 +1,6 @@
 //import express from 'express';
 import { get } from "mongoose"
-import { Postagem } from "../models/Postagem"
+import { Postagem } from "../models/postagem"
 
 
 

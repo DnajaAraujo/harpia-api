@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-const Usuario = require('./app/models/usuario')
+const Usuario = require('./models/usuario')
 
 import {routerPost} from './routes/postRoute';
 import express from 'express';
@@ -142,7 +142,7 @@ router.delete('/usuarios/deletar/:id', async(req, res) => {
 
 
 // Padronizando rotas (ex.: .../api/postagens)
-//app.use('/api', router)
+app.use('/api', router)
 
 app.use('/postagem',routerPost);
 
