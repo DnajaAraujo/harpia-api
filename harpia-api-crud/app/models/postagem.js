@@ -20,4 +20,3 @@ const Postagem = mongoose.model('Postagem', PostagemSchema);
 
 export {Postagem}
 
-//module.exports = mongoose.model('Post', PostSchema)

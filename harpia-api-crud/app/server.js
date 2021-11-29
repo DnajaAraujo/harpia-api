@@ -1,5 +1,7 @@
 require("dotenv").config();
 
+const Usuario = require('./app/models/usuario')
+
 import {routerPost} from './routes/postRoute';
 import express from 'express';
 import mongoose from 'mongoose';
@@ -30,90 +32,113 @@ router.use((req, res, next) => {
 })
 
 
-
-/*
-
-// ----------------------------------------------------------------------------------------
-// Rotas das postagens
-// Obter todas as postagens
-router.get('/postagens', async(req, res) => {
-    Postagem.find((error, postagens) => {
+// --------------------------------------------------------------------------------------
+// Rotas dos usuarios
+// Obter todos os usuarios
+router.get('/usuarios', async(req, res) => {
+    Usuario.find((error, usuarios) => {
         if (error) {
-            res.status(400).json({ mensagem: 'Erro ao tentar obter todos as postagens' })
+            res.status(400).json({ mensagem: 'Erro ao tentar obter todos os usuários!' })
         }
-        res.status(200).json(postagens)
+        res.status(200).json(usuarios)
     })
 })
 
 
-// Obter uma postagem
-router.get('/postagens/:id', async(req, res) => {
+// Obter um usuario
+router.get('/usuarios/:id', async(req, res) => {
     const { id } = req.params
-    Postagem.findById(id, (error, postagem) => {
+    Usuario.findById(id, (error, usuario) => {
         if (error) {
-            res.status(400).json({ mensagem: 'Id da postagem não encontrado' })
+            res.status(400).json({ mensagem: 'Id do usuário não encontrado!' })
         }
-        res.status(200).json(postagem)
+        res.status(200).json(usuario)
     })
 })
 
 
-// Criar postagem
-router.post('/postagens/criar', async(req, res) => {
-    const postagem = new Postagem()
+// Criar usuario
+router.post('/usuarios/criar', async(req, res) => {
+    const { 
+        nome, 
+        dataNascimento,  
+        telefone, 
+        email, 
+        senha,
+        bairro,
+        cidade,
+        estado 
+    } = req.body
 
-    postagem.titulo = req.body.titulo
-    postagem.descricao = req.body.descricao
-    postagem.categoria = req.body.categoria
-    postagem.idLivro = req.body.idLivro
-  
-    postagem.save((error) => {
+    const usuario = new Usuario()
+
+    usuario.nome = nome
+    usuario.dataNascimento = dataNascimento
+    usuario.telefone = telefone
+    usuario.email = email
+    usuario.senha = senha
+    usuario.bairro = bairro
+    usuario.cidade = cidade
+    usuario.estado = estado
+
+    usuario.save((error) => {
         if (error) {
-            res.status(400).json({ mensagem: 'Erro ao tentar salvar a postagem' })
+            res.status(400).json({ mensagem: 'Erro ao tentar salvar o usuário!' })
         }
-        res.status(200).json({ mensagem: 'Postagem cadastrada com sucesso!' })
+        res.status(200).json({ mensagem: 'Usuário cadastrado com sucesso!' })
     })
 })
 
 
-// Alterar postagem
-router.put('/postagens/alterar/:id', async(req, res) => {
+// Alterar usuario
+router.put('/usuarios/alterar/:id', async(req, res) => {
     const { id } = req.params
-    const { titulo, descricao, categoria, idLivro } = req.body
+    const { 
+        nome, 
+        dataNascimento, 
+        telefone, 
+        email, 
+        senha,
+        bairro,
+        cidade,
+        estado 
+    } = req.body
 
-    Postagem.findById(id, (error, postagem) => {
+    Usuario.findById(id, (error, usuario) => {
         if (error) {
-            res.status(400).json({ mensagem: 'Id da postagem não encontrado' })
+            res.status(400).json({ mensagem: 'Id do usuário não encontrado!' })
         }
-        if (titulo) postagem.titulo = titulo
-        if (descricao) postagem.descricao = descricao
-        if (categoria) postagem.categoria = categoria
-        if (idLivro) postagem.idLivro = idLivro
+        if (nome) usuario.nome = nome
+        if (dataNascimento) usuario.dataNascimento = dataNascimento
+        if (telefone) usuario.telefone = telefone
+        if (email) usuario.email = email
+        if (senha) usuario.senha = senha
+        if (bairro) usuario.bairro = bairro
+        if (cidade) usuario.cidade = cidade
+        if (estado) usuario.estado = estado
         
-        postagem.save((error) => {
+        usuario.save((error) => {
             if (error) {
-                res.status(400).json({ mensagem: 'Erro ao alterar a postagem' })
+                res.status(400).json({ mensagem: 'Erro ao alterar o usuário!' })
             }
-            res.status(200).json({ mensagem: 'Postagem atualizada com sucesso!' })
+            res.status(200).json({ mensagem: 'Usuário atualizado com sucesso!' })
         })
     })
 
 })
 
 
-// Deletar postagem
-router.delete('/postagens/deletar/:id', async(req, res) => {
+// Deletar usuario
+router.delete('/usuarios/deletar/:id', async(req, res) => {
     const { id } = req.params
 
-    Postagem.deleteOne({_id: id}, (error) => {
+    Usuario.deleteOne({_id: id}, (error) => {
         if (error) {
-            res.status(400).json({ mensagem: 'Id da postagem não foi encontrado' })
+            res.status(400).json({ mensagem: 'Id do usuário não foi encontrado!' })
         }
-        res.status(200).json({ mensagem: 'Postagem excluida com sucesso!' })
+        res.status(200).json({ mensagem: 'Usuário excluido com sucesso!' })
     })
 })
-*/
-
 
 
 // Padronizando rotas (ex.: .../api/postagens)

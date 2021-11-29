@@ -4,7 +4,7 @@ import multer from 'multer';
 import multerConfig from '../config/multer'
 
 import {PostagemController} from '../controller/PostagemController';
-import {Postagem} from '../models/Postagem';
+import {Postagem} from '../models/postagem';
 
 const routerPost = Router();
 
