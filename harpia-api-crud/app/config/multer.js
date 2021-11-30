@@ -3,13 +3,9 @@ require("dotenv").config();
 import multer from "multer";
 import path from "path";
 import crypto from 'crypto';
+import aws from 'aws-sdk';
+import multerS3 from 'multer-s3';
 
-//const multer = multerLib();
-//const path = require('path');
-//const crypto = cryptoLib();
-
-//const aws = require("aws-sdk");
-//const multerS3 = require("multer-s3");
 
 const MAX_SIZE_TWO_MEGABYTES = 2 * 1024 * 1024;
 
@@ -28,21 +24,21 @@ const storageTypes = {
       });
     },
   }),
-//   s3: multerS3({
-//     s3: new aws.S3(),
-//     bucket: process.env.BUCKET_NAME,
-//     contentType: multerS3.AUTO_CONTENT_TYPE,
-//     acl: "public-read",
-//     key: (req, file, cb) => {
-//       crypto.randomBytes(16, (err, hash) => {
-//         if (err) cb(err);
+  s3: multerS3({
+    s3: new aws.S3(),
+    bucket: process.env.BUCKET_NAME,
+    contentType: multerS3.AUTO_CONTENT_TYPE,
+    acl: "public-read",
+    key: (req, file, cb) => {
+      crypto.randomBytes(16, (err, hash) => {
+        if (err) cb(err);
 
-//         const fileName = `${hash.toString("hex")}-${file.originalname}`;
+        const fileName = `${hash.toString("hex")}-${file.originalname}`;
 
-//         cb(null, fileName);
-//       });
-//     },
-//   }),
+        cb(null, fileName);
+      });
+    },
+  }),
 };
 
 module.exports =  {

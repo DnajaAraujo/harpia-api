@@ -1,6 +1,8 @@
 //import express from 'express';
 import { get } from "mongoose"
+import { MidiaPostagem } from "../models/midiaPostagem"
 import { Postagem } from "../models/postagem"
+
 
 
 
@@ -27,11 +29,20 @@ export const PostagemController = {
 
         //Get file
 
-        const { originalname: name, size, key, location: url = "" } = request.file;
-        console.log(name,url)
+        const { originalname: nome, size : tamanho, key, location: url = "" } = request.file;
+        
 
         try {
             await post.save();    
+
+            await MidiaPostagem.create({
+                nome,
+                tamanho,
+                key,
+                url,
+                postagemId : post._id
+            });
+
             response.status(200).json({ mensagem: 'Post cadastrado com sucesso!' })
         } catch (error) {
             response.status(400).json({ mensagem: 'Erro ao tentar salvar a post' })
@@ -39,7 +50,7 @@ export const PostagemController = {
         
     },
 
-    async get(request, response){
+    async getPostagem(request, response){
 
         const { id } = request.params
         Postagem.findById(id, (error, postagem) => {
@@ -82,6 +93,16 @@ export const PostagemController = {
                 response.status(400).json({ mensagem: 'Id da postagem não foi encontrado' })
             }
             response.status(200).json({ mensagem: 'Postagem excluida com sucesso!' })
+        })
+    },
+
+    async getImg(request, response){
+
+        MidiaPostagem.find((error, postagem) => {
+            if (error) {
+                response.status(400).json({ mensagem: 'Imagens não encontradas' })
+            }
+            response.status(200).json(postagem)
         })
     }
 }

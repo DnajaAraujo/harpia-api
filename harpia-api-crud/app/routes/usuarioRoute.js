@@ -1,6 +1,9 @@
 import {Router} from 'express'
 import {UsuarioController} from './../controller/UsuarioController'
 
+import multer from 'multer';
+import multerConfig from '../config/multer'
+
 const routerUsuario = Router()
 
 // --------------------------------------------------------------------------------------
@@ -14,7 +17,7 @@ routerUsuario.get('/:id', UsuarioController.get)
 
 
 // Criar usuario
-routerUsuario.post('/criar', UsuarioController.create)
+routerUsuario.post('/criar',multer(multerConfig).single("perfilImg"), UsuarioController.create)
 
 
 // Alterar usuario

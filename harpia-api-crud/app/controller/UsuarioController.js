@@ -1,3 +1,4 @@
+import { MidiaPerfil } from '../models/midiaPerfil'
 import {Usuario} from './../models/usuario'
 
 export const UsuarioController = {
@@ -23,34 +24,35 @@ export const UsuarioController = {
     },
 
     async create(request,response){
-        const { 
-            nome, 
-            dataNascimento,  
-            telefone, 
-            email, 
-            senha,
-            bairro,
-            cidade,
-            estado 
-        } = request.body
+
+        const { originalname, size : tamanho, key, location: url = "" } = request.file;
+
+        const { nome, dataNascimento,  telefone, email, senha, bairro, cidade, estado } = request.body
+
+        try{
+            const usuario = await Usuario.create({
+                nome,
+                dataNascimento,
+                telefone,
+                email,
+                senha,
+                bairro,
+                cidade,
+                estado
+            })
+
+            await MidiaPerfil.create({
+                nome : originalname,
+                tamanho,
+                key,
+                url,
+                usuarioId : usuario._id
+            });
+
+        }catch{
+            response.status(400).json({ mensagem: 'Erro ao tentar salvar o usuário!' })
+        }
     
-        const usuario = new Usuario()
-    
-        usuario.nome = nome
-        usuario.dataNascimento = dataNascimento
-        usuario.telefone = telefone
-        usuario.email = email
-        usuario.senha = senha
-        usuario.bairro = bairro
-        usuario.cidade = cidade
-        usuario.estado = estado
-    
-        usuario.save((error) => {
-            if (error) {
-                response.status(400).json({ mensagem: 'Erro ao tentar salvar o usuário!' })
-            }
-            response.status(200).json({ mensagem: 'Usuário cadastrado com sucesso!' })
-        })
     },
 
     async update(request, response){
