@@ -7,16 +7,7 @@ import { Postagem } from "../models/postagem"
 export const PostagemController = {
 
     async index(request,response){
-        
-        // try {
-        //     const postagens = await Post.find({}).exec();    
-        //     response.status(200).json(postagens);
-        // }catch (error) {
-        //     response.status(400).json({ mensagem: error.message })
-        //     console.log(error);
-        // }
-        
-
+                
         Postagem.find((error, postagens) => {
             if (error) {
                 response.status(400).json({ mensagem: 'Erro ao tentar obter todos as postagens' })
@@ -46,12 +37,6 @@ export const PostagemController = {
             response.status(400).json({ mensagem: 'Erro ao tentar salvar a post' })
         }
         
-        // post.save((error) => {
-        //     if (error) {
-        //         response.status(400).json({ mensagem: 'Erro ao tentar salvar a post' })
-        //     }
-        //     response.status(200).json({ mensagem: 'Post cadastrado com sucesso!' })
-        // })
     },
 
     async get(request, response){
@@ -62,6 +47,41 @@ export const PostagemController = {
                 response.status(400).json({ mensagem: 'Id da postagem não encontrado' })
             }
             response.status(200).json(postagem)
+        })
+    },
+
+    async update(request, response){
+
+        const { id } = request.params
+        const { titulo, descricao, categoria, idLivro } = request.body
+
+        Postagem.findById(id, (error, postagem) => {
+            if (error) {
+                request.status(400).json({ mensagem: 'Id da postagem não encontrado' })
+            }
+            if (titulo) postagem.titulo = titulo
+            if (descricao) postagem.descricao = descricao
+            if (categoria) postagem.categoria = categoria
+            if (idLivro) postagem.idLivro = idLivro
+            
+            postagem.save((error) => {
+                if (error) {
+                    response.status(400).json({ mensagem: 'Erro ao alterar a postagem' })
+                }
+                response.status(200).json({ mensagem: 'Postagem atualizada com sucesso!' })
+            })
+        })
+    },
+
+    async delete(request, response){
+
+        const { id } = request.params
+
+        Postagem.deleteOne({_id: id}, (error) => {
+            if (error) {
+                response.status(400).json({ mensagem: 'Id da postagem não foi encontrado' })
+            }
+            response.status(200).json({ mensagem: 'Postagem excluida com sucesso!' })
         })
     }
 }
