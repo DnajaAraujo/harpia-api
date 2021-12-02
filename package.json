@@ -4,15 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon dist/server.js",
+    "server": "node dist/server.js",
     "build": "babel app -d dist",
-    "start": "nodemon --exec babel-node ./app/server.js",
-    "start-heroku": "babel-node ./app/server.js"
+    "dev": "nodemon --exec babel-node ./app/server.js",
+    "start-dev": "yarn build & nodemon dist/server.js",
+    "start-heroku": "yarn build & yarn server"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@babel/runtime": "^7.16.3",
     "aws-sdk": "^2.1039.0",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
@@ -27,6 +29,7 @@
     "@babel/core": "^7.16.0",
     "@babel/node": "^7.16.0",
     "@babel/plugin-proposal-class-properties": "^7.16.0",
+    "@babel/plugin-transform-runtime": "^7.16.4",
     "@babel/preset-env": "^7.16.4",
     "nodemon": "^2.0.15"
   }
