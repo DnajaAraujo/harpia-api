@@ -33,11 +33,13 @@ router.use((req, res, next) => {
 
 
 
-// Padronizando rotas (ex.: .../api/postagens)
+// Padronizando rotas
 app.use('/usuario', routerUsuario);
 app.use('/postagem',routerPost);
 
 // Inicializando servidor
-app.listen(serverConfig.porta, () => {
-    console.log(`App running *${serverConfig.porta}...`)
+const PORT = process.env.PORT || serverConfig.porta
+
+app.listen(PORT, () => {
+    console.log(`App running in port ${PORT}...`)
 })
