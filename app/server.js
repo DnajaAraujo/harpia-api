@@ -21,7 +21,7 @@ app.use(express.json({ limit: '50mb'}))
 app.use(express.urlencoded({ extended: true, limit: '50mb' }))
 
 // Salva imagem no diretório local
-app.use(serverConfig.path, express.static(path.resolve(__dirname,'..','public','upload')))
+app.use(serverConfig.path, express.static(path.resolve(__dirname,'..','public','uploads')))
 
 const router = express.Router()
 
