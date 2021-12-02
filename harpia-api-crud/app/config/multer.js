@@ -7,7 +7,7 @@ import aws from 'aws-sdk';
 import multerS3 from 'multer-s3';
 
 
-const MAX_SIZE_TWO_MEGABYTES = 2 * 1024 * 1024;
+const MAX_SIZE_FIVE_MEGABYTES = 5 * 1024 * 1024;
 
 const storageTypes = {
   local: multer.diskStorage({
@@ -45,7 +45,7 @@ module.exports =  {
   dest: path.resolve(__dirname, "..", "..", "public", "uploads"),
   storage: storageTypes[process.env.STORAGE_TYPE],
   limits: {
-    fileSize: MAX_SIZE_TWO_MEGABYTES,
+    fileSize: MAX_SIZE_FIVE_MEGABYTES,
   },
   fileFilter: (req, file, cb) => {
     const allowedMimes = [
