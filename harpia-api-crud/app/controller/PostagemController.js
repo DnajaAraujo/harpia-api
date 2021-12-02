@@ -26,6 +26,12 @@ export const PostagemController = {
         post.descricao = request.body.descricao
         post.categoria = request.body.categoria
         post.idUsuario = request.body.idUsuario
+        post.valor =  request.body.valor
+        post.dataDevolucao =  request.body.dataDevolucao
+        post.dataRealDevolucao =  request.body.dataRealDevolucao
+        post.multa =  request.body.multa
+        post.status =  request.body.status
+        post.itensInteresse =  request.body.itensInteresse
 
         //Get file
 
