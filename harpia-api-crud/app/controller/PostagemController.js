@@ -34,12 +34,12 @@ export const PostagemController = {
         post.itensInteresse =  request.body.itensInteresse
 
         //Get file
-
-        const { originalname: nome, size : tamanho, key, location: url = "" } = request.file;
-        
+              
 
         try {
             await post.save();    
+            
+            const { originalname: nome, size : tamanho, key, location: url = "" } = request.file;
 
             await MidiaPostagem.create({
                 nome,
@@ -51,6 +51,7 @@ export const PostagemController = {
 
             response.status(200).json({ mensagem: 'Post cadastrado com sucesso!' })
         } catch (error) {
+            console.log(error)
             response.status(400).json({ mensagem: 'Erro ao tentar salvar a post' })
         }
         
