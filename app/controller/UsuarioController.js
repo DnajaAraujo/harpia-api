@@ -58,7 +58,7 @@ export const UsuarioController = {
     },
 
     async update(request, response){
-        const { id } = req.params
+        const { id } = request.params
         const { 
             nome, 
             dataNascimento, 
