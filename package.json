@@ -7,7 +7,7 @@
     "dev": "nodemon dist/server.js",
     "build": "babel app -d dist",
     "start": "nodemon --exec babel-node ./app/server.js",
-    "start-heroku": "node --exec babel-node ./app/server.js"
+    "start-heroku": "babel-node ./app/server.js"
   },
   "keywords": [],
   "author": "",
@@ -28,6 +28,6 @@
     "@babel/node": "^7.16.0",
     "@babel/plugin-proposal-class-properties": "^7.16.0",
     "@babel/preset-env": "^7.16.4",
-    "nodemon": "^2.0.14"
+    "nodemon": "^2.0.15"
   }
 }
