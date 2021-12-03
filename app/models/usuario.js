@@ -11,7 +11,8 @@ const UsuarioSchema = new Schema({
 
     bairro: String,
     cidade: String,
-    estado: String
+    estado: String,
+    dataCadastro: {type: Date, default: Date.now}
 
 })
 
