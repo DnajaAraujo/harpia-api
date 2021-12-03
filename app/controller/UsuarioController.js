@@ -49,6 +49,8 @@ export const UsuarioController = {
                 usuarioId : usuario._id
             });
 
+            response.status(200).json({ mensagem: 'Usuário cadastrado com sucesso!' })
+        
         }catch{
             response.status(400).json({ mensagem: 'Erro ao tentar salvar o usuário!' })
         }
@@ -56,7 +58,7 @@ export const UsuarioController = {
     },
 
     async update(request, response){
-        const { id } = req.params
+        const { id } = request.params
         const { 
             nome, 
             dataNascimento, 
