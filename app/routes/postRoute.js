@@ -17,6 +17,8 @@ routerPost.get('/getAll', PostagemController.index);
 // Rota que lista a imagem de um post. Esta rota é somente de teste. Acredito que ela não deve ficar aqui
 routerPost.get('/imagem', PostagemController.getImg)
 
+routerPost.get('/:id/img', PostagemController.getImagePost)
+
 // Obter uma postagem
 routerPost.get('/:id', PostagemController.getPostagem);
 

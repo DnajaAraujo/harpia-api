@@ -98,6 +98,28 @@ export const UsuarioController = {
             }
             response.status(200).json({ mensagem: 'Usuário excluido com sucesso!' })
         })
+    },
+
+    async getImg(request, response){
+
+        MidiaPerfil.find((error, imagem) => {
+            if (error) {
+                response.status(400).json({ mensagem: 'Imagens não encontradas' })
+            }
+            response.status(200).json(imagem)
+        })
+    },
+
+    async getImageProfile(request, response){
+
+        const {id} = request.params
+
+        MidiaPerfil.find({usuarioId: id}, (error, imagem) => {
+            if (error) {
+                response.status(400).json({ mensagem: 'Imagem não encontrada' })
+            }
+            response.status(200).json(imagem)
+        })
     }
 
 }

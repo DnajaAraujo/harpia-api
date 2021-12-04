@@ -111,5 +111,17 @@ export const PostagemController = {
             }
             response.status(200).json(postagem)
         })
+    },
+
+    async getImagePost(request, response){
+
+        const {id} = request.params
+
+        MidiaPostagem.find({postagemId: id}, (error, imagem) => {
+            if (error) {
+                response.status(400).json({ mensagem: 'Imagem não encontrada' })
+            }
+            response.status(200).json(imagem)
+        })
     }
 }
