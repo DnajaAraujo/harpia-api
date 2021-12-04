@@ -13,7 +13,6 @@ const MidiaPostagemSchema = new Schema({
     },
     
     
-
 })
 
 export const MidiaPostagem = mongoose.model('MidiaPostagem', MidiaPostagemSchema)

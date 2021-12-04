@@ -15,6 +15,12 @@ const PostagemSchema = new Schema({
     status: Boolean,
     itensInteresse: String,
 
+    cep: String,
+    uf : String,
+    codigoCidade: String,
+    bairro: String,
+    logradouro: String
+
 })
 const Postagem = mongoose.model('Postagem', PostagemSchema);
 
