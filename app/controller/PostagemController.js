@@ -9,13 +9,14 @@ import { Postagem } from "../models/postagem"
 export const PostagemController = {
 
     async index(request,response){
-                
-        Postagem.find((error, postagens) => {
-            if (error) {
-                response.status(400).json({ mensagem: 'Erro ao tentar obter todos as postagens' })
-            }
+        
+        try {
+            const postagens = await Postagem.find().sort({dataCadastro: 'desc'});    
             response.status(200).json(postagens)
-        })
+        } catch (error) {
+            response.status(400).json({ mensagem: 'Erro ao tentar obter todos as postagens' })
+        }
+        
     },
 
     async create(request,response){
