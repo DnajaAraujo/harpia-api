@@ -36,9 +36,6 @@ export const UsuarioController = {
                 telefone,
                 email,
                 senha,
-                bairro,
-                cidade,
-                estado
             })
 
             await MidiaPerfil.create({

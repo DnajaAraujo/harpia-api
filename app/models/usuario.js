@@ -9,9 +9,6 @@ const UsuarioSchema = new Schema({
     email: String,
     senha: String,
 
-    bairro: String,
-    cidade: String,
-    estado: String,
     dataCadastro: {type: Date, default: Date.now}
 
 })
