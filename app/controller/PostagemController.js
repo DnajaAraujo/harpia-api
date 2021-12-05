@@ -38,6 +38,7 @@ export const PostagemController = {
         post.uf =  request.body.uf
         post.bairro =  request.body.bairro
         post.logradouro =  request.body.logradouro
+        post.cidade =  request.body.cidade
 
         //Get file
               

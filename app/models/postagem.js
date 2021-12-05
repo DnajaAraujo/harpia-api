@@ -19,7 +19,8 @@ const PostagemSchema = new Schema({
     uf : String,
     codigoCidade: String,
     bairro: String,
-    logradouro: String
+    logradouro: String,
+    cidade: String
 
 })
 const Postagem = mongoose.model('Postagem', PostagemSchema);
