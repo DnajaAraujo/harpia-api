@@ -36,6 +36,7 @@ export const UsuarioController = {
                 telefone,
                 email,
                 senha,
+                imgPerfilUrl : url
             })
 
             await MidiaPerfil.create({

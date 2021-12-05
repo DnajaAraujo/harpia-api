@@ -9,7 +9,8 @@ const UsuarioSchema = new Schema({
     email: String,
     senha: String,
 
-    dataCadastro: {type: Date, default: Date.now}
+    dataCadastro: {type: Date, default: Date.now},
+    imgPerfilUrl : String
 
 })
 
