@@ -114,7 +114,7 @@ export const UsuarioController = {
 
         const {id} = request.params
 
-        MidiaPerfil.find({usuarioId: id}, (error, imagem) => {
+        MidiaPerfil.findOne({usuarioId: id}, (error, imagem) => {
             if (error) {
                 response.status(400).json({ mensagem: 'Imagem não encontrada' })
             }
