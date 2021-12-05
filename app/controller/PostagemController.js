@@ -33,6 +33,11 @@ export const PostagemController = {
         post.multa =  request.body.multa
         post.status =  request.body.status
         post.itensInteresse =  request.body.itensInteresse
+        post.cep =  request.body.cep
+        post.codigoCidade =  request.body.codigoCidade
+        post.uf =  request.body.uf
+        post.bairro =  request.body.bairro
+        post.logradouro =  request.body.logradouro
 
         //Get file
               
