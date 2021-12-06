@@ -78,7 +78,7 @@ export const PostagemController = {
     async update(request, response){
 
         const { id } = request.params
-        const { titulo, descricao, categoria, idLivro } = request.body
+        const { titulo, descricao, categoria, status } = request.body
 
         Postagem.findById(id, (error, postagem) => {
             if (error) {
@@ -87,7 +87,7 @@ export const PostagemController = {
             if (titulo) postagem.titulo = titulo
             if (descricao) postagem.descricao = descricao
             if (categoria) postagem.categoria = categoria
-            if (idLivro) postagem.idLivro = idLivro
+            if (status) postagem.status = status
             
             postagem.save((error) => {
                 if (error) {
