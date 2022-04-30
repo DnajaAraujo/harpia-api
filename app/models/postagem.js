@@ -20,7 +20,8 @@ const PostagemSchema = new Schema({
     codigoCidade: String,
     bairro: String,
     logradouro: String,
-    cidade: String
+    cidade: String,
+    postagem : { type: Schema.Types.ObjectId, ref : 'MidiaPostagem' },
 
 })
 const Postagem = mongoose.model('Postagem', PostagemSchema);

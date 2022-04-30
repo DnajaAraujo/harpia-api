@@ -1,5 +1,5 @@
 //import express from 'express';
-import { get } from "mongoose"
+import { get, Mongoose, Types } from "mongoose"
 import { MidiaPostagem } from "../models/midiaPostagem"
 import { Postagem } from "../models/postagem"
 
@@ -11,7 +11,7 @@ export const PostagemController = {
     async index(request,response){
         
         try {
-            const postagens = await Postagem.find().sort({dataCadastro: 'desc'});    
+            const postagens = await Postagem.find().populate().sort({dataCadastro: 'desc'});    
             response.status(200).json(postagens)
         } catch (error) {
             response.status(400).json({ mensagem: 'Erro ao tentar obter todos as postagens' })
@@ -44,17 +44,28 @@ export const PostagemController = {
               
 
         try {
-            await post.save();    
             
             const { originalname: nome, size : tamanho, key, location: url = "" } = request.file;
 
-            await MidiaPostagem.create({
-                nome,
-                tamanho,
-                key,
-                url,
+            const midiaPostagem = new MidiaPostagem({
+                _id : new Types.ObjectId(),
+                nome : nome,
+                tamanho : tamanho,
+                key : key,
+                url : url,
                 postagemId : post._id
             });
+            await midiaPostagem.save();
+            post.postagem = midiaPostagem._id;
+            await post.save();    
+
+            // await MidiaPostagem.create({
+            //     nome,
+            //     tamanho,
+            //     key,
+            //     url,
+            //     postagemId : post._id
+            // });
 
             response.status(200).json({ mensagem: 'Post cadastrado com sucesso!' })
         } catch (error) {
