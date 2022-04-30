@@ -11,7 +11,7 @@ export const PostagemController = {
     async index(request,response){
         
         try {
-            const postagens = await Postagem.find().populate().sort({dataCadastro: 'desc'});    
+            const postagens = await Postagem.find().populate("postagem").sort({dataCadastro: 'desc'});    
             response.status(200).json(postagens)
         } catch (error) {
             response.status(400).json({ mensagem: 'Erro ao tentar obter todos as postagens' })
